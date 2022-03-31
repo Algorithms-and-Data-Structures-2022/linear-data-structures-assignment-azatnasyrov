@@ -9,16 +9,38 @@ namespace assignment {
   }
 
   void LinkedList::Add(int value) {
-    // Write your code here ...
+    Node* v = new Node(value);
+    if(front_ != nullptr){
+      back_ -> next = v;
+      back_ = v;
+    }
+    front_ = v;
+    back_ = front_;
   }
 
   bool LinkedList::Insert(int index, int value) {
-    // Write your code here ...
-    return false;
+   if(index > size_ || index < 0) {
+     return false;
+   }
+   if(index == 0){
+     front_ = new Node(value, front_);
+     if(size_ == 0){
+       back_ = front_;
+     }
+     size_++;
+     return true;
+   }
+   if(index == size_) {
+     Add(value);
+     return true;
+   }
   }
 
   bool LinkedList::Set(int index, int new_value) {
-    return false;
+    if(index > size_ || index < 0) {
+      return false;
+    }
+
   }
 
   std::optional<int> LinkedList::Remove(int index) {

@@ -28,9 +28,12 @@ namespace assignment {
   void ArrayStack::Push(int value) {
     if (size_ >= capacity_){
       Resize(capacity_ * kCapacityGrowthCoefficient);
+      data_[size_] = value;
+      size_++;
+    } else {
+      data_[size_] = value;
+      size_++;
     }
-    data_[size_] = value;
-    size_ ++;
   }
 
   bool ArrayStack::Pop() {
@@ -42,8 +45,6 @@ namespace assignment {
       new_data[i] = data_[i];
     }
     data_ = new_data;
-    delete[] new_data;
-    new_data = nullptr;
     size_ --;
     return true;
   }
