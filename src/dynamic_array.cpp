@@ -26,8 +26,8 @@ namespace assignment {
   }
 
   void DynamicArray::Add(int value) {
-    if (size_ + 1 >= capacity_ ){
-      Resize(capacity_ * kCapacityGrowthCoefficient);
+    if (size_  >= capacity_ ){
+      Resize(capacity_ + kCapacityGrowthCoefficient);
     }
     data_[size_] = value;
     size_ ++;
@@ -37,8 +37,8 @@ namespace assignment {
     if(index < 0 || index > size_) {
       return false;
     }
-    if(size_ + 1 >= capacity_){
-      Resize(capacity_ * kCapacityGrowthCoefficient);
+    if(size_  >= capacity_){
+      Resize(capacity_ + kCapacityGrowthCoefficient);
     }
     for(int i = size_ - 1; i >= index; i --){
       data_[i + 1] = data_[i];

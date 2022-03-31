@@ -27,7 +27,7 @@ namespace assignment {
 
   void ArrayStack::Push(int value) {
     if (size_ >= capacity_){
-      Resize(capacity_ * kCapacityGrowthCoefficient);
+      Resize(capacity_ + kCapacityGrowthCoefficient);
       data_[size_] = value;
       size_++;
     } else {
