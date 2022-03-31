@@ -81,7 +81,6 @@ namespace assignment {
       }
       delete[] data_;
       data_ = new_data;
-      delete[] new_data;
       new_data = nullptr;
       capacity_ = new_capacity;
       return true;
