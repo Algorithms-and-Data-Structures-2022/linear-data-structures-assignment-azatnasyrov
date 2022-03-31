@@ -10,82 +10,147 @@ namespace assignment {
 
   void LinkedList::Add(int value) {
     Node* v = new Node(value);
-    if(front_ != nullptr){
+    if(front_ == nullptr){
+      front_ = v;
+    }else{
       back_ -> next = v;
-      back_ = v;
     }
-    front_ = v;
-    back_ = front_;
+    back_= v;
+    size_ ++;
   }
 
   bool LinkedList::Insert(int index, int value) {
-   if(index > size_ || index < 0) {
-     return false;
-   }
-   if(index == 0){
-     front_ = new Node(value, front_);
-     if(size_ == 0){
-       back_ = front_;
-     }
-     size_++;
-     return true;
-   }
-   if(index == size_) {
-     Add(value);
-     return true;
-   }
+    if (index > size_ || index < 0) {
+      return false;
+    }
+    Node* v = new Node(value);
+    if (front_ == nullptr) {
+      back_ = v;
+      front_ = v;
+    } else {
+      if (index == 0) {
+        v->next = front_;
+        front_ = v;
+      } else if (index == size_) {
+        back_->next = v;
+        back_ = v;
+      } else {
+        Node* prev = FindNode(index - 1);
+        Node* next_ = FindNode(index + 1);
+        prev->next = v;
+        v->next = next_;
+      }
+    }
   }
 
-  bool LinkedList::Set(int index, int new_value) {
-    if(index > size_ || index < 0) {
+  bool LinkedList::Set(int index, int new_value){
+    Node* v = FindNode(index);
+    if(v == nullptr){
       return false;
+    }
+    v -> value = new_value;
+    return true;
+  }
+
+  std::optional<int> LinkedList::Remove(int index) {
+    if(index < 0 || index >= size_) {
+      return std::nullopt;
+    }
+    if(index == 0){
+      Node* removed_n = front_;
+      int removed_val = front_ -> value;
+      front_ = front_ -> next;
+      delete removed_n;
+      size_ --;
+      return removed_val;
+    }else{
+      Node* prev_n = FindNode(index - 1);
+      Node* next_n = FindNode(index + 1);
+      Node* removed_n = prev_n -> next;
+      int removed_val = removed_n -> value;
+      prev_n -> next = next_n;
+      delete removed_n;
+      size_--;
+      return removed_val;
     }
 
   }
 
-  std::optional<int> LinkedList::Remove(int index) {
-    // Write your code here ...
-    return std::nullopt;
-  }
-
   void LinkedList::Clear() {
-    // Write your code here ...
+    size_ = 0;
+    front_ = nullptr;
+    back_ = nullptr;
+    for(Node* current_n = front_; current_n != nullptr;){
+      Node* removed_n = current_n;
+      current_n = current_n -> next;
+      delete removed_n;
+    }
   }
 
   std::optional<int> LinkedList::Get(int index) const {
-    // Write your code here ...
-    return std::nullopt;
+    Node* get_n = FindNode(index);
+    if(get_n == nullptr){
+      return std::nullopt;
+    }
+    int needed_val = get_n -> value;
+    return needed_val;
   }
 
   std::optional<int> LinkedList::IndexOf(int value) const {
-    // Write your code here ...
+    int current_i = 0;
+    for(Node* current_n = front_; current_n != nullptr;){
+      int current_v = current_n -> value;
+      if(current_v == value){
+        return current_i;
+      }
+      current_n = current_n -> next;
+      current_i ++;
+    }
     return std::nullopt;
   }
 
   bool LinkedList::Contains(int value) const {
-    return false;
+    return IndexOf(value)!= std::nullopt;
   }
 
   bool LinkedList::IsEmpty() const {
-    return false;
+    return size_ == 0;
   }
 
   int LinkedList::size() const {
-    return 0;
+    return size_;
   }
 
   std::optional<int> LinkedList::front() const {
-    // Write your code here ...
-    return std::nullopt;
+    if(front_ == nullptr) {
+      return std::nullopt;
+    }
+    int val = front_ -> value;
+    return val;
   }
 
   std::optional<int> LinkedList::back() const {
-    // Write your code here ...
-    return std::nullopt;
+    if(back_ == nullptr) {
+      return std::nullopt;
+    }
+    int val = back_ -> value;
+    return val;
   }
 
   Node* LinkedList::FindNode(int index) const {
-    // Write your code here ...
+    if(index >= size_ || index < 0) {
+      return nullptr;
+    }
+    int i = 0;
+    for(Node* v = front_; v != nullptr; v = v -> next) {
+      if(i == index){
+        return v;
+      }
+      i += 1;
+    }
+    if(index == size_ - 1){
+      return back_;
+    }
     return nullptr;
   }
 
